@@ -1,6 +1,7 @@
 package com.bookkeeper.demo.controller;
 
 import com.bookkeeper.demo.model.Book;
+import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,12 @@ public class BookController {
     public Book addBook(@RequestBody Book bookObject){
         System.out.println("Calling addBook");
         return bookService.addBook(bookObject);
+    }
+
+    @PostMapping("/genres")
+    public Genre addGenre(@RequestBody Genre genreObject){
+        System.out.println("Calling addGenre");
+        return bookService.addGenre(genreObject);
     }
 
 }

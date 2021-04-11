@@ -1,5 +1,7 @@
 package com.bookkeeper.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -19,11 +21,15 @@ public class Book {
     @Column
     private Long isbn;
 
+    private String genreName;
+
+    @ManyToOne
+    private Genre genre;
 
     public Book() {
     }
 
-    public Book(String title, String synopsis, int pageCount, Long isbn) {
+    public Book(String title, String synopsis, int pageCount, Long isbn, String genreName) {
         this.title = title;
         this.synopsis = synopsis;
         this.pageCount = pageCount;
@@ -75,5 +81,17 @@ public class Book {
                 ", pageCount=" + pageCount +
                 ", isbn=" + isbn +
                 '}';
+    }
+
+    public Genre getGenre() {
+        return genre;
+    }
+
+    public void setGenre(Genre genre) {
+        this.genre = genre;
+    }
+
+    public String getGenreName() {
+        return genreName;
     }
 }

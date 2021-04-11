@@ -3,9 +3,7 @@ package com.bookkeeper.demo.controller;
 import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,6 +22,12 @@ public class BookController {
     public List<Book> getAllBooks(){
         System.out.println("Calling getAllBooks");
         return bookService.getAllBooks();
+    }
+
+    @PostMapping("/books")
+    public Book addBook(@RequestBody Book bookObject){
+        System.out.println("Calling addBook");
+        return bookService.addBook(bookObject);
     }
 
 }

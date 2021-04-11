@@ -17,13 +17,13 @@ public class Book {
     @Column
     private int pageCount;
     @Column
-    private int isbn;
+    private Long isbn;
 
 
     public Book() {
     }
 
-    public Book(String title, String synopsis, int pageCount, int isbn) {
+    public Book(String title, String synopsis, int pageCount, Long isbn) {
         this.title = title;
         this.synopsis = synopsis;
         this.pageCount = pageCount;
@@ -58,11 +58,11 @@ public class Book {
         this.pageCount = pageCount;
     }
 
-    public int getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(int isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 

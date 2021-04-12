@@ -1,17 +1,17 @@
 package com.bookkeeper.demo.controller;
 
 import com.bookkeeper.demo.model.Book;
+import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(path="/api")
 public class BookController {
-
     private BookService bookService;
 
     @Autowired
@@ -25,11 +25,10 @@ public class BookController {
         return "Hello world";
     }
 
-    //http://localhost:9091/api/books
     @PostMapping("/books")
-    public Book createBook(@RequestBody Book bookObject) {
-        System.out.println("calling from createBook");
-        return bookService.createBook(bookObject);
+    public Book addBook(@RequestBody Map<String, String> payload){
+        System.out.println("Calling addBook");
+        return bookService.addBook(payload);
     }
 
     //http://localhost:9091/api/books
@@ -39,11 +38,10 @@ public class BookController {
         return bookService.getBook(bookId);
     }
 
-    //http://localhost:9091/api/books
     @GetMapping("/books")
-    public List<Book> getBooks() {
-        System.out.println("calling getBooks");
-        return bookService.getBooks();
+    public List<Book> getAllBooks(){
+        System.out.println("Calling getAllBooks");
+        return bookService.getAllBooks();
     }
 
     //http://localhost:9091/api/books/1
@@ -58,5 +56,18 @@ public class BookController {
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");
         return bookService.deleteBook(bookId);
+    }
+
+    @PostMapping("/genres")
+    public Genre addGenre(@RequestBody Genre genreObject){
+        System.out.println("Calling addGenre");
+        return bookService.addGenre(genreObject);
+    }
+
+    @PostMapping("/test")
+    public Map<String, String> test(@RequestBody Map<String, String> payload){
+        System.out.println("Calling test");
+        System.out.println(payload.get("genre_id").getClass());
+        return payload;
     }
 }

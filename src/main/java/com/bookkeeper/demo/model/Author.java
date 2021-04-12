@@ -1,6 +1,7 @@
 package com.bookkeeper.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "authors")
@@ -18,6 +19,9 @@ public class Author {
     private int age;
     @Column
     private String nationality;
+
+    @OneToMany(mappedBy = "author")
+   private List<Book> bookList;
 
     public Author() {
     }

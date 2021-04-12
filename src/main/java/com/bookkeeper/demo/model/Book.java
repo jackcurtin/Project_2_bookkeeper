@@ -24,11 +24,14 @@ public class Book {
 
     @ManyToOne
     private Genre genre;
+    @ManyToOne
+    private Author author;
 
     public Book() {
     }
 
-    public Book(String title, String synopsis, int pageCount, Long isbn, String genreName) {
+
+    public Book(String title, String synopsis, int pageCount, Long isbn) {
         this.title = title;
         this.synopsis = synopsis;
         this.pageCount = pageCount;

@@ -18,6 +18,10 @@ public class Author {
     private int age;
     @Column
     private String nationality;
+//
+//    @OneToMany
+//    @JoinColumn(name = "book_id")
+//    private Book book;
 
     public Author() {
     }

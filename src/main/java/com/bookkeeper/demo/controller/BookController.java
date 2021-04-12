@@ -19,19 +19,12 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    //http://localhost:PORTNUMBER/api/hello
-    @RequestMapping("/hello")
-    public String helloWorld() {
-        return "Hello world";
-    }
-
     @PostMapping("/books")
     public Book addBook(@RequestBody Map<String, String> payload){
         System.out.println("Calling addBook");
         return bookService.addBook(payload);
     }
 
-    //http://localhost:PORTNUMBER/api/books
     @GetMapping("/books/{bookId}")
     public Optional getBook(@PathVariable Long bookId) {
         System.out.println("calling createBook");
@@ -44,14 +37,12 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    //http://localhost:PORTNUMBER/api/books/1
     @PutMapping("/books/{bookId}")
     public Book updateBook(@PathVariable Long bookId, @RequestBody Book bookObject) {
         System.out.println("calling fon UpdateBook");
         return bookService.updateBook(bookId, bookObject);
     }
 
-    //http://localhost:PORTNUMBER/api/books/1
     @DeleteMapping("/books/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");

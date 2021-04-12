@@ -1,6 +1,7 @@
 package com.bookkeeper.demo.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "publishers")
@@ -14,6 +15,9 @@ public class Publisher {
     private String name;
     @Column
     private String address;
+
+    @OneToMany(mappedBy = "publisher", orphanRemoval = true)
+    private List<Book> bookList;
 
     public Publisher() {
     }

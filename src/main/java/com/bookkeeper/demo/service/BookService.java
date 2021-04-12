@@ -2,8 +2,12 @@ package com.bookkeeper.demo.service;
 
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
+import com.bookkeeper.demo.model.Author;
 import com.bookkeeper.demo.model.Book;
+import com.bookkeeper.demo.model.Publisher;
+import com.bookkeeper.demo.repository.AuthorRepository;
 import com.bookkeeper.demo.repository.BookRepository;
+import com.bookkeeper.demo.repository.PublisherRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -18,6 +22,8 @@ import java.util.Optional;
 public class BookService {
     private BookRepository bookRepository;
     private GenreRepository genreRepository;
+    private AuthorRepository authorRepository;
+    private PublisherRepository publisherRepository;
 
     @Autowired
     public void setBookRepository (BookRepository bookRepository){
@@ -27,6 +33,16 @@ public class BookService {
     @Autowired
     public void setGenreRepository (GenreRepository genreRepository){
         this.genreRepository = genreRepository;
+    }
+
+    @Autowired
+    public void setAuthorRepository(AuthorRepository authorRepository){
+        this.authorRepository = authorRepository;
+    }
+
+    @Autowired
+    public void setPublisherRepository(PublisherRepository publisherRepository){
+        this.publisherRepository = publisherRepository;
     }
 
     public Optional getBook(Long bookId) {
@@ -56,16 +72,28 @@ public class BookService {
                     + " already exists in this database");
         } else{
             Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
+            Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
+                    (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
+            Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
             if(genreChecker.isEmpty()){
                 throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
                         " found in the database");
-            } else{
+            } else if (authorChecker.isEmpty()){
+                throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " " + bookObject.get("author_last_name") +
+                        " found in the database");
+            } else if (publisherChecker.isEmpty()){
+                throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
+                        " found in the database");
+            }
+            else{
                 Book book = new Book();
                 book.setTitle(bookObject.get("title"));
                 book.setSynopsis(bookObject.get("synopsis"));
                 book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
                 book.setIsbn(Long.valueOf(bookObject.get("isbn")));
                 book.setGenre(genreChecker.get());
+                book.setAuthor(authorChecker.get());
+                book.setPublisher(publisherChecker.get());
                 return bookRepository.save(book);
 
             }

@@ -20,7 +20,7 @@ public class Author {
     @Column
     private String nationality;
 
-    @OneToMany(mappedBy = "author")
+    @OneToMany(mappedBy = "author", orphanRemoval = true)
    private List<Book> bookList;
 
     public Author() {

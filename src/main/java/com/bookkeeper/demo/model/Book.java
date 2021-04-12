@@ -26,6 +26,8 @@ public class Book {
     private Genre genre;
     @ManyToOne
     private Author author;
+    @ManyToOne
+    private Publisher publisher;
 
     public Book() {
     }
@@ -91,5 +93,21 @@ public class Book {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    public void setPublisher(Publisher publisher) {
+        this.publisher = publisher;
+    }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public Publisher getPublisher() {
+        return publisher;
     }
 }

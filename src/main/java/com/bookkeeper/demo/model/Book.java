@@ -1,6 +1,7 @@
 package com.bookkeeper.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 
@@ -20,8 +21,6 @@ public class Book {
     private int pageCount;
     @Column
     private Long isbn;
-
-    private String genreName;
 
     @ManyToOne
     private Genre genre;
@@ -89,9 +88,5 @@ public class Book {
 
     public void setGenre(Genre genre) {
         this.genre = genre;
-    }
-
-    public String getGenreName() {
-        return genreName;
     }
 }

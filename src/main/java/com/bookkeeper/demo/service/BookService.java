@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.management.InstanceNotFoundException;
 import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -38,21 +39,25 @@ public class BookService {
         return allBooks;
     }
 
-    public Book addBook(Book bookObject){
+    public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
-        System.out.println(bookObject.getGenre());
-        Book bookChecker = bookRepository.findByTitle(bookObject.getTitle());
+        Book bookChecker = bookRepository.findByTitle(bookObject.get("title"));
         if(bookChecker != null){
             throw new InformationExistsException("Book with title " + bookChecker.getTitle()
                     + " already exists in this database");
         } else{
-            Optional<Genre> genreChecker = genreRepository.findByName(bookObject.getGenreName());
+            Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
             if(genreChecker.isEmpty()){
-                throw new InformationNotFoundException("No genre with name " + bookObject.getGenreName() +
+                throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
                         " found in the database");
             } else{
-                bookObject.setGenre(genreChecker.get());
-                return bookRepository.save(bookObject);
+                Book book = new Book();
+                book.setTitle(bookObject.get("title"));
+                book.setSynopsis(bookObject.get("synopsis"));
+                book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
+                book.setIsbn(Long.valueOf(bookObject.get("isbn")));
+                book.setGenre(genreChecker.get());
+                return bookRepository.save(book);
 
             }
         }

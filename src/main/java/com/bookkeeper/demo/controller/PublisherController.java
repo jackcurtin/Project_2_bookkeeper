@@ -4,6 +4,7 @@ import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.model.Publisher;
 import com.bookkeeper.demo.service.PublisherService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,15 +25,21 @@ public class PublisherController {
         return publisherService.getAllPublishers();
     }
 
-//    @PostMapping
-//    public Publisher addPublisher(@ResponseBody Publisher publisherObject){
-//        System.out.println("calling addPublisher");
-//        return publisherService.addPublisher(publisherObject);
-//    }
+    @GetMapping("/{publisherId}")
+    public Publisher getPublisher(@PathVariable Long publisherId){
+        System.out.println("calling getPublisher");
+        return publisherService.getPublisher(publisherId);
+    }
 
     @PostMapping
     public Publisher addPublisher(@RequestBody Publisher publisherObject){
         System.out.println("Calling addPublisher");
         return publisherService.addPublisher(publisherObject);
+    }
+
+    @DeleteMapping("{publisherId}")
+    public ResponseEntity<Object> deletePublisher(@PathVariable Long publisherId){
+        System.out.println("Calling deletePublisher");
+        return publisherService.deletePublisher(publisherId);
     }
 }

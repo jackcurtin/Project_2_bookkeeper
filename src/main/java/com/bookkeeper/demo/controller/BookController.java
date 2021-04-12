@@ -19,7 +19,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    //http://localhost:9091/api/hello
+    //http://localhost:PORTNUMBER/api/hello
     @RequestMapping("/hello")
     public String helloWorld() {
         return "Hello world";
@@ -31,7 +31,7 @@ public class BookController {
         return bookService.addBook(payload);
     }
 
-    //http://localhost:9091/api/books
+    //http://localhost:PORTNUMBER/api/books
     @GetMapping("/books/{bookId}")
     public Optional getBook(@PathVariable Long bookId) {
         System.out.println("calling createBook");
@@ -44,24 +44,18 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    //http://localhost:9091/api/books/1
+    //http://localhost:PORTNUMBER/api/books/1
     @PutMapping("/books/{bookId}")
     public Book updateBook(@PathVariable Long bookId, @RequestBody Book bookObject) {
         System.out.println("calling fon UpdateBook");
         return bookService.updateBook(bookId, bookObject);
     }
 
-    //http://localhost:9091/api/books/1
+    //http://localhost:PORTNUMBER/api/books/1
     @DeleteMapping("/books/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");
         return bookService.deleteBook(bookId);
-    }
-
-    @PostMapping("/genres")
-    public Genre addGenre(@RequestBody Genre genreObject){
-        System.out.println("Calling addGenre");
-        return bookService.addGenre(genreObject);
     }
 
     @PostMapping("/test")

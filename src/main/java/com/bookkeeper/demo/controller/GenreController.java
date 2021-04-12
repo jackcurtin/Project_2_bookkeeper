@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.controller;
 
+import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.service.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class GenreController {
         return genreService.getAllGenres();
     }
 
+    @GetMapping("/{genreId}")
+    public Genre getGenre(@PathVariable Long genreId){
+        System.out.println("calling getGenre");
+        return genreService.getGenre(genreId);
+    }
 
     @PostMapping
     public Genre addGenre(@RequestBody Genre genreObject){

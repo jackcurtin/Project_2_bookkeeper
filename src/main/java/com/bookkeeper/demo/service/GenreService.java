@@ -28,7 +28,15 @@ public class GenreService {
         return genres;
     }
 
-
+    public Genre getGenre(Long genreId){
+        System.out.println("service calling getGenre");
+        Optional <Genre> genre = genreRepository.findById(genreId);
+        if(genre.isPresent()){
+            return genre.get();
+        } else{
+            throw new InformationNotFoundException("Genre with id "+ genreId + " not found");
+        }
+    }
 
     public Genre addGenre(Genre genreObject){
         System.out.println("Service is calling addGenre");

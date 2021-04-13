@@ -33,7 +33,7 @@ public class AuthorService {
 
     public Author addAuthor(Author authorObject) {
         System.out.println("Service Calling addAuthor");
-        Optional author = authorRepository.findByFirstNameAndLastName(authorObject.getFirstName(), authorObject.getLastName());
+        Optional author = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorObject.getFirstName(), authorObject.getLastName());
         if (author.isPresent()){
             throw new InformationExistsException("Author "+authorObject.getFirstName() + " "+ authorObject.getLastName()+" already present");
         } else {

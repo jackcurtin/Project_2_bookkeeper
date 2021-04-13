@@ -80,9 +80,9 @@ public class BookService {
         System.out.println("service calling update Book");
         Optional<Book> bookChecker = bookRepository.findById(bookId);
         if (bookChecker.isPresent()) {
-            if (bookObject.get("title") == (bookChecker.get().getTitle())) {
-                throw new InformationExistsException("book titled" + bookChecker.get().getTitle()
-                        + "already exists in the database");
+            if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
+                throw new InformationExistsException("book titled " + bookChecker.get().getTitle()
+                        + " already exists in the database");
             } else {
                 Book book = bookChecker.get();
                 return bookChecksAndUpdates(book, bookObject);

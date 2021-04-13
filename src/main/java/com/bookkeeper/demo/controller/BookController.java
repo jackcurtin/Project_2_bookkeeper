@@ -38,8 +38,8 @@ public class BookController {
     }
 
     @PutMapping("/books/{bookId}")
-    public Book updateBook(@PathVariable Long bookId, @RequestBody Book bookObject) {
-        System.out.println("calling fon UpdateBook");
+    public Book updateBook(@PathVariable Long bookId, @RequestBody Map<String, String> bookObject) {
+        System.out.println("calling updateBook");
         return bookService.updateBook(bookId, bookObject);
     }
 

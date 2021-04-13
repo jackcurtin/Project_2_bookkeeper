@@ -79,8 +79,8 @@ public class BookService {
                 throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
                         " found in the database");
             } else if (authorChecker.isEmpty()){
-                throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " " + bookObject.get("author_last_name") +
-                        " found in the database");
+                throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " "
+                        + bookObject.get("author_last_name") + " found in the database");
             } else if (publisherChecker.isEmpty()){
                 throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
                         " found in the database");
@@ -100,25 +100,44 @@ public class BookService {
         }
     }
 
-    public Book updateBook(Long bookId, Book bookObject) {
+    public Book updateBook(Long bookId, Map<String, String> bookObject) {
         System.out.println("service calling update Book");
         Optional<Book> book = bookRepository.findById(bookId);
         if (book.isPresent()) {
-            if (bookObject.getIsbn() == (book.get().getIsbn())) {
-                System.out.println("same book");
-                throw new InformationExistsException("book of this " + book.get().getTitle() + "already exist");
+            if (bookObject.get("title") == (book.get().getTitle())) {
+                throw new InformationExistsException("book titled" + book.get().getTitle() + "already exists in the database");
             } else {
-                bookObject.setTitle(bookObject.getTitle());
-                bookObject.setSynopsis(bookObject.getSynopsis());
-                bookObject.setPageCount(bookObject.getPageCount());
-                return bookRepository.save(bookObject);
+                Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
+                Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
+                        (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
+                Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
+                if (genreChecker.isEmpty()) {
+                    throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
+                            " found in the database");
+                } else if (authorChecker.isEmpty()) {
+                    throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " " + bookObject.get("author_last_name") +
+                            " found in the database");
+                } else if (publisherChecker.isEmpty()) {
+                    throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
+                            " found in the database");
+                } else {
+                    book.get().setTitle(bookObject.get("title"));
+                    book.get().setSynopsis(bookObject.get("synopsis"));
+                    book.get().setPageCount(Integer.parseInt(bookObject.get("pageCount")));
+                    book.get().setIsbn(Long.valueOf(bookObject.get("isbn")));
+                    book.get().setGenre(genreChecker.get());
+                    book.get().setAuthor(authorChecker.get());
+                    book.get().setPublisher(publisherChecker.get());
+                    return bookRepository.save(book.get());
+
+                }
             }
         } else {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
     }
 
-    public String deleteBook(Long bookId) {
+        public String deleteBook(Long bookId) {
         System.out.println("service calling deleteBook");
         Optional<Book> book = bookRepository.findById(bookId);
         if ( book.isPresent()) {

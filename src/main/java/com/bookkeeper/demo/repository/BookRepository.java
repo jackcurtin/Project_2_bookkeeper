@@ -3,6 +3,8 @@ package com.bookkeeper.demo.repository;
 import com.bookkeeper.demo.model.Book;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.Optional;
+
 public interface BookRepository extends JpaRepository <Book, Long> {
-    Book findByTitle(String bookTitle);
+    Optional<Book> findByTitle(String bookTitle);
 }

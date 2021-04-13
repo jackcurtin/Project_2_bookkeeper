@@ -68,7 +68,7 @@ public class BookService {
     public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
         Optional<Book> bookChecker = bookRepository.findByTitle(bookObject.get("title"));
-        if(bookChecker.isPresent()){
+        if(bookChecker.isPresent() && bookChecker.get().getTitle().equalsIgnoreCase(bookObject.get("title"))){
             throw new InformationExistsException("Book with title " + bookChecker.get().getTitle()
                     + " already exists in this database");
         } else{
@@ -81,16 +81,16 @@ public class BookService {
         System.out.println("service calling update Book");
         Optional<Book> bookChecker = bookRepository.findById(bookId);
         if (bookChecker.isPresent()) {
-            if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
+            if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
                 throw new InformationExistsException("book titled " + bookObject.get("title")
                         + " already exists in the database");
             } else {
                 Book book = bookChecker.get();
                 return bookCreateOrUpdates(book, bookObject);
-            }
+          }
         } else {
             throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
-        }
+       }
     }
 
     public String deleteBook(Long bookId) {

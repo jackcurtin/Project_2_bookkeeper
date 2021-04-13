@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path="/api")
+@RequestMapping(path="/api/books")
 public class BookController {
     private BookService bookService;
 
@@ -19,31 +19,31 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping("/books")
+    @PostMapping
     public Book addBook(@RequestBody Map<String, String> payload){
         System.out.println("Calling addBook");
         return bookService.addBook(payload);
     }
 
-    @GetMapping("/books/{bookId}")
+    @GetMapping("/{bookId}")
     public Optional getBook(@PathVariable Long bookId) {
         System.out.println("calling createBook");
         return bookService.getBook(bookId);
     }
 
-    @GetMapping("/books")
+    @GetMapping
     public List<Book> getAllBooks(){
         System.out.println("Calling getAllBooks");
         return bookService.getAllBooks();
     }
 
-    @PutMapping("/books/{bookId}")
+    @PutMapping("/{bookId}")
     public Book updateBook(@PathVariable Long bookId, @RequestBody Book bookObject) {
         System.out.println("calling fon UpdateBook");
         return bookService.updateBook(bookId, bookObject);
     }
 
-    @DeleteMapping("/books/{bookId}")
+    @DeleteMapping("/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");
         return bookService.deleteBook(bookId);

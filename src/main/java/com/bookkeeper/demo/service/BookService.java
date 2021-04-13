@@ -81,7 +81,7 @@ public class BookService {
         Optional<Book> bookChecker = bookRepository.findById(bookId);
         if (bookChecker.isPresent()) {
             if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
-                throw new InformationExistsException("book titled " + bookChecker.get().getTitle()
+                throw new InformationExistsException("book titled " + bookObject.get("title")
                         + " already exists in the database");
             } else {
                 Book book = bookChecker.get();

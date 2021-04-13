@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.service;
 
+import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Author;
@@ -66,27 +67,61 @@ public class BookService {
 
     public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
-        Book bookChecker = bookRepository.findByTitle(bookObject.get("title"));
-        if(bookChecker != null){
-            throw new InformationExistsException("Book with title " + bookChecker.getTitle()
+        Optional<Book> bookChecker = bookRepository.findByTitle(bookObject.get("title"));
+        if(bookChecker.isPresent()){
+            throw new InformationExistsException("Book with title " + bookChecker.get().getTitle()
                     + " already exists in this database");
         } else{
-            Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
-            Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
-                    (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
-            Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
-            if(genreChecker.isEmpty()){
-                throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
-                        " found in the database");
-            } else if (authorChecker.isEmpty()){
-                throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " "
-                        + bookObject.get("author_last_name") + " found in the database");
-            } else if (publisherChecker.isEmpty()){
-                throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
-                        " found in the database");
+            Book book = new Book();
+            return bookCreateOrUpdates(book, bookObject);
+        }
+    }
+
+    public Book updateBook(Long bookId, Map<String, String> bookObject) {
+        System.out.println("service calling update Book");
+        Optional<Book> bookChecker = bookRepository.findById(bookId);
+        if (bookChecker.isPresent()) {
+            if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
+                throw new InformationExistsException("book titled " + bookObject.get("title")
+                        + " already exists in the database");
+            } else {
+                Book book = bookChecker.get();
+                return bookCreateOrUpdates(book, bookObject);
             }
-            else{
-                Book book = new Book();
+        } else {
+            throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
+        }
+    }
+
+    public String deleteBook(Long bookId) {
+        System.out.println("service calling deleteBook");
+        Optional<Book> book = bookRepository.findById(bookId);
+        if ( book.isPresent()) {
+            bookRepository.deleteById(bookId);
+            return "book " + bookId + " deleted";
+        } else {
+            throw new InformationNotFoundException("Book with id " + bookId + "not found");
+        }
+    }
+
+    private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
+        Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
+        Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
+                (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
+        Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
+        if (genreChecker.isEmpty()) {
+            throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
+                    " found in the database");
+        } else if (authorChecker.isEmpty()) {
+            throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " " + bookObject.get("author_last_name") +
+                    " found in the database");
+        } else if (publisherChecker.isEmpty()) {
+            throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
+                    " found in the database");
+        } else {
+            if (bookObject.get("title").length() < 1){
+                throw new CannotBeNullException("Title cannot be left empty");
+            }else {
                 book.setTitle(bookObject.get("title"));
                 book.setSynopsis(bookObject.get("synopsis"));
                 book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
@@ -95,56 +130,7 @@ public class BookService {
                 book.setAuthor(authorChecker.get());
                 book.setPublisher(publisherChecker.get());
                 return bookRepository.save(book);
-
             }
-        }
-    }
-
-    public Book updateBook(Long bookId, Map<String, String> bookObject) {
-        System.out.println("service calling update Book");
-        Optional<Book> book = bookRepository.findById(bookId);
-        if (book.isPresent()) {
-            if (bookObject.get("title") == (book.get().getTitle())) {
-                throw new InformationExistsException("book titled" + book.get().getTitle() + "already exists in the database");
-            } else {
-                Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
-                Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
-                        (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
-                Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
-                if (genreChecker.isEmpty()) {
-                    throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
-                            " found in the database");
-                } else if (authorChecker.isEmpty()) {
-                    throw new InformationNotFoundException("No author with name " + bookObject.get("author_first_name") + " " + bookObject.get("author_last_name") +
-                            " found in the database");
-                } else if (publisherChecker.isEmpty()) {
-                    throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
-                            " found in the database");
-                } else {
-                    book.get().setTitle(bookObject.get("title"));
-                    book.get().setSynopsis(bookObject.get("synopsis"));
-                    book.get().setPageCount(Integer.parseInt(bookObject.get("pageCount")));
-                    book.get().setIsbn(Long.valueOf(bookObject.get("isbn")));
-                    book.get().setGenre(genreChecker.get());
-                    book.get().setAuthor(authorChecker.get());
-                    book.get().setPublisher(publisherChecker.get());
-                    return bookRepository.save(book.get());
-
-                }
-            }
-        } else {
-            throw new InformationNotFoundException("Book with id " + bookId + "not found");
-        }
-    }
-
-        public String deleteBook(Long bookId) {
-        System.out.println("service calling deleteBook");
-        Optional<Book> book = bookRepository.findById(bookId);
-        if ( book.isPresent()) {
-            bookRepository.deleteById(bookId);
-            return "book " + bookId + " deleted";
-        } else {
-            throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
     }
 }

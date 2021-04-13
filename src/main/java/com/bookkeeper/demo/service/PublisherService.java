@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.service;
 
+import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Genre;
@@ -47,7 +48,11 @@ public class PublisherService {
         if(publisherChecker.isPresent()){
             throw new InformationExistsException("Publisher named "+ publisherObject.getName() + " already in database.");
         }else{
-            return publisherRepository.save(publisherObject);
+            if(publisherObject.getName().length() <1){
+                throw new CannotBeNullException("Publisher name cannot be null");
+            } else {
+                return publisherRepository.save(publisherObject);
+            }
         }
     }
 

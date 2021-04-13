@@ -1,6 +1,7 @@
 package com.bookkeeper.demo.service;
 
 import com.bookkeeper.demo.controller.AuthorController;
+import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Author;
@@ -36,7 +37,11 @@ public class AuthorService {
         if (author.isPresent()){
             throw new InformationExistsException("Author "+authorObject.getFirstName() + " "+ authorObject.getLastName()+" already present");
         } else {
-             return authorRepository.save(authorObject);
+            if(authorObject.getFirstName().length()<1 && authorObject.getLastName().length() <1){
+                throw new CannotBeNullException("Author firstName or last name cannot be null");
+            } else {
+                return authorRepository.save(authorObject);
+            }
         }
     }
 

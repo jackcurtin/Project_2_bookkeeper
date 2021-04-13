@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.service;
 
+import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Genre;
@@ -47,7 +48,11 @@ public class GenreService {
             throw new InformationExistsException("Genre with name " + genreObject.getName()
                     + " already exists in this database");
         } else{
-            return genreRepository.save(genreObject);
+            if(genreObject.getName().length() <1){
+                throw new CannotBeNullException("Genre name cannot be null");
+            } else {
+                return genreRepository.save(genreObject);
+            }
         }
     }
 

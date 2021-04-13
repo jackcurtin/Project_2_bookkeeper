@@ -44,7 +44,7 @@ public class PublisherService {
 
     public Publisher addPublisher(Publisher publisherObject){
         System.out.println("service calling addPublisher");
-        Optional<Publisher> publisherChecker = publisherRepository.findByName(publisherObject.getName());
+        Optional<Publisher> publisherChecker = publisherRepository.findByNameIgnoreCase(publisherObject.getName());
         if(publisherChecker.isPresent()){
             throw new InformationExistsException("Publisher named "+ publisherObject.getName() + " already in database.");
         }else{

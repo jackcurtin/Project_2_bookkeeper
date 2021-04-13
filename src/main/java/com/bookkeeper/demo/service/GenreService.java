@@ -43,7 +43,7 @@ public class GenreService {
 
     public Genre addGenre(Genre genreObject){
         System.out.println("Service is calling addGenre");
-        Optional<Genre> genreChecker = genreRepository.findByName(genreObject.getName());
+        Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(genreObject.getName());
         if (genreChecker.isPresent()){
             throw new InformationExistsException("Genre with name " + genreObject.getName()
                     + " already exists in this database");

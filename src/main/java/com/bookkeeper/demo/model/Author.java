@@ -1,5 +1,7 @@
 package com.bookkeeper.demo.model;
 
+import com.sun.istack.NotNull;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -12,8 +14,10 @@ public class Author {
     private Long id;
 
     @Column
+    @NotNull
     private String firstName;
     @Column
+    @NotNull
     private String lastName;
     @Column
     private int age;

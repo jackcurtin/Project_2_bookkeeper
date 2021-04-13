@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.model;
 
+import com.sun.istack.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -15,6 +16,7 @@ public class Genre {
     private Long id;
 
     @Column
+    @NotNull
     private String name;
     @Column
     private String description;

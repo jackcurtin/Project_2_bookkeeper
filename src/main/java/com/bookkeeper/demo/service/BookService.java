@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.service;
 
+import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Author;
@@ -72,7 +73,7 @@ public class BookService {
                     + " already exists in this database");
         } else{
             Book book = new Book();
-            return bookChecksAndUpdates(book, bookObject);
+            return bookCreateOrUpdates(book, bookObject);
         }
     }
 
@@ -80,15 +81,15 @@ public class BookService {
         System.out.println("service calling update Book");
         Optional<Book> bookChecker = bookRepository.findById(bookId);
         if (bookChecker.isPresent()) {
-            if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
+            if (bookRepository.findByTitle(bookObject.get("title").toLowerCase()).isPresent()) {
                 throw new InformationExistsException("book titled " + bookObject.get("title")
                         + " already exists in the database");
             } else {
                 Book book = bookChecker.get();
-                return bookChecksAndUpdates(book, bookObject);
+                return bookCreateOrUpdates(book, bookObject);
             }
         } else {
-            throw new InformationNotFoundException("Book with id " + bookId + "not found");
+            throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
         }
     }
 
@@ -103,7 +104,7 @@ public class BookService {
         }
     }
 
-    private Book bookChecksAndUpdates (Book book, Map <String, String> bookObject){
+    private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
         Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
         Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
                 (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
@@ -118,14 +119,18 @@ public class BookService {
             throw new InformationNotFoundException("No publisher with name " + bookObject.get("publisher_name") +
                     " found in the database");
         } else {
-            book.setTitle(bookObject.get("title"));
-            book.setSynopsis(bookObject.get("synopsis"));
-            book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
-            book.setIsbn(Long.valueOf(bookObject.get("isbn")));
-            book.setGenre(genreChecker.get());
-            book.setAuthor(authorChecker.get());
-            book.setPublisher(publisherChecker.get());
-            return bookRepository.save(book);
+            if (bookObject.get("title").length() < 1){
+                throw new CannotBeNullException("Title cannot be left empty");
+            }else {
+                book.setTitle(bookObject.get("title").toLowerCase());
+                book.setSynopsis(bookObject.get("synopsis").toLowerCase());
+                book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
+                book.setIsbn(Long.valueOf(bookObject.get("isbn")));
+                book.setGenre(genreChecker.get());
+                book.setAuthor(authorChecker.get());
+                book.setPublisher(publisherChecker.get());
+                return bookRepository.save(book);
+            }
         }
     }
 }

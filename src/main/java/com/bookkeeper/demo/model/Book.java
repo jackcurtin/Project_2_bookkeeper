@@ -2,6 +2,7 @@ package com.bookkeeper.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
 
 import javax.persistence.*;
 
@@ -14,6 +15,7 @@ public class Book {
     private Long id;
 
     @Column
+    @NotNull
     private String title;
     @Column
     private String synopsis;

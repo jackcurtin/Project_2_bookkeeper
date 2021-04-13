@@ -81,7 +81,7 @@ public class BookService {
         System.out.println("service calling update Book");
         Optional<Book> bookChecker = bookRepository.findById(bookId);
         if (bookChecker.isPresent()) {
-            if (bookRepository.findByTitle(bookObject.get("title").toLowerCase()).isPresent()) {
+            if (bookRepository.findByTitle(bookObject.get("title")).isPresent()) {
                 throw new InformationExistsException("book titled " + bookObject.get("title")
                         + " already exists in the database");
             } else {
@@ -122,8 +122,8 @@ public class BookService {
             if (bookObject.get("title").length() < 1){
                 throw new CannotBeNullException("Title cannot be left empty");
             }else {
-                book.setTitle(bookObject.get("title").toLowerCase());
-                book.setSynopsis(bookObject.get("synopsis").toLowerCase());
+                book.setTitle(bookObject.get("title"));
+                book.setSynopsis(bookObject.get("synopsis"));
                 book.setPageCount(Integer.parseInt(bookObject.get("pageCount")));
                 book.setIsbn(Long.valueOf(bookObject.get("isbn")));
                 book.setGenre(genreChecker.get());

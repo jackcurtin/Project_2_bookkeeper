@@ -1,9 +1,18 @@
 package com.bookkeeper.demo.service;
 
 import com.bookkeeper.demo.exception.InformationExistsException;
+import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.User;
+import com.bookkeeper.demo.model.request.LoginRequest;
+import com.bookkeeper.demo.model.response.LoginResponse;
 import com.bookkeeper.demo.repository.UserRepository;
+import com.bookkeeper.demo.security.JWTUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +24,19 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    private UserDetailsService userDetailsService;
+
+    @Autowired
+    private JWTUtils jwtUtils;
+
+    @Autowired
+    public void setUserDetailsService(UserDetailsService userDetailsService){
+        this.userDetailsService = userDetailsService;
+    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository){
@@ -36,7 +58,19 @@ public class UserService {
         }
     }
 
-    
+    public ResponseEntity<Object> loginUser(LoginRequest loginRequest) {
+        System.out.println("service calling loginUser ==>");
+        try {
+            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
+            final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUserName());
+            final String JWT = jwtUtils.generateToken(userDetails);
+            return ResponseEntity.ok(new LoginResponse(JWT));
+        }catch(NullPointerException e){
+            throw new InformationNotFoundException(("user with that user name"+loginRequest.getUserName()+"not found"));
+        }
+
+    }
+
 
 
 }

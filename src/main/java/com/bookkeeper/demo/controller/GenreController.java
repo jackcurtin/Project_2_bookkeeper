@@ -31,13 +31,13 @@ public class GenreController {
         return genreService.getGenre(genreId);
     }
 
-    @PostMapping
+    @PostMapping("/add/")
     public Genre addGenre(@RequestBody Genre genreObject){
         System.out.println("Calling addGenre");
         return genreService.addGenre(genreObject);
     }
 
-    @DeleteMapping("/{genreId}")
+    @DeleteMapping("/delete/{genreId}")
     public ResponseEntity<Object> deleteCategory(@PathVariable Long genreId){
         System.out.println("Calling deleteGenre");
         return genreService.deleteGenre(genreId);

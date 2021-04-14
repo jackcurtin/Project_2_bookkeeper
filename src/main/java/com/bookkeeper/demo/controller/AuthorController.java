@@ -21,7 +21,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
-    @PostMapping
+    @PostMapping("/add/")
     public Author addAuthor(@RequestBody Author authorObject) {
         System.out.println("Calling addAuthor");
         return authorService.addAuthor(authorObject);
@@ -40,7 +40,7 @@ public class AuthorController {
         return authorService.getAllAuthor();
     }
 
-    @DeleteMapping("/{authorId}")
+    @DeleteMapping("/delete/{authorId}")
     public String deleteAuthor(@PathVariable Long authorId) {
         System.out.println("calling from DeleteBook");
         return authorService.deleteAuthor(authorId);

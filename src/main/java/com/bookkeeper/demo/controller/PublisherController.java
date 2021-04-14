@@ -31,13 +31,13 @@ public class PublisherController {
         return publisherService.getPublisher(publisherId);
     }
 
-    @PostMapping
+    @PostMapping("/add/")
     public Publisher addPublisher(@RequestBody Publisher publisherObject){
         System.out.println("Calling addPublisher");
         return publisherService.addPublisher(publisherObject);
     }
 
-    @DeleteMapping("{publisherId}")
+    @DeleteMapping("/delete/{publisherId}")
     public ResponseEntity<Object> deletePublisher(@PathVariable Long publisherId){
         System.out.println("Calling deletePublisher");
         return publisherService.deletePublisher(publisherId);

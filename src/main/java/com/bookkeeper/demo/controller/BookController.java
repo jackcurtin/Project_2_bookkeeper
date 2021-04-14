@@ -19,7 +19,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping
+    @PostMapping("/add/")
     public Book addBook(@RequestBody Map<String, String> payload){
         System.out.println("Calling addBook");
         return bookService.addBook(payload);
@@ -37,22 +37,15 @@ public class BookController {
         return bookService.getAllBooks();
     }
 
-    @PutMapping("/{bookId}")
+    @PutMapping("/update/{bookId}")
     public Book updateBook(@PathVariable Long bookId, @RequestBody Map<String, String> bookObject) {
         System.out.println("calling updateBook");
         return bookService.updateBook(bookId, bookObject);
     }
 
-    @DeleteMapping("/{bookId}")
+    @DeleteMapping("delete/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");
         return bookService.deleteBook(bookId);
-    }
-
-    @PostMapping("/test")
-    public Map<String, String> test(@RequestBody Map<String, String> payload){
-        System.out.println("Calling test");
-        System.out.println(payload.get("genre_id").getClass());
-        return payload;
     }
 }

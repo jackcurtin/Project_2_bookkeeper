@@ -9,7 +9,10 @@ import com.bookkeeper.demo.model.Publisher;
 import com.bookkeeper.demo.repository.AuthorRepository;
 import com.bookkeeper.demo.repository.BookRepository;
 import com.bookkeeper.demo.repository.PublisherRepository;
+import com.bookkeeper.demo.security.JWTUtils;
+import com.bookkeeper.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import com.bookkeeper.demo.model.Genre;
@@ -67,6 +70,7 @@ public class BookService {
 
     public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
+//        MyUserDetails userDetails =(MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Book> bookChecker = bookRepository.findByTitle(bookObject.get("title"));
         if(bookChecker.isPresent() && bookChecker.get().getTitle().equalsIgnoreCase(bookObject.get("title"))){
             throw new InformationExistsException("Book with title " + bookChecker.get().getTitle()

@@ -23,7 +23,7 @@ public class GenreService {
     }
 
     public List<Genre> getAllGenres(){
-        System.out.println("service calling getAllGenres");
+
         List<Genre> genres = genreRepository.findAll();
         if(genres.isEmpty()){
             throw new InformationNotFoundException("There are no genres.");

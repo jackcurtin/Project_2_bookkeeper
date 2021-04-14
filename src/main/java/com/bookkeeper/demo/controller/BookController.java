@@ -19,7 +19,7 @@ public class BookController {
         this.bookService = bookService;
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public Book addBook(@RequestBody Map<String, String> payload){
         System.out.println("Calling addBook");
         return bookService.addBook(payload);

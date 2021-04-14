@@ -70,7 +70,6 @@ public class BookService {
 
     public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
-//        MyUserDetails userDetails =(MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Optional<Book> bookChecker = bookRepository.findByTitle(bookObject.get("title"));
         if(bookChecker.isPresent() && bookChecker.get().getTitle().equalsIgnoreCase(bookObject.get("title"))){
             throw new InformationExistsException("Book with title " + bookChecker.get().getTitle()

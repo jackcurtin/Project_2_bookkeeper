@@ -28,15 +28,11 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
     private JWTUtils jwtUtils;
-
-    @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService){
-        this.userDetailsService = userDetailsService;
-    }
 
     @Autowired
     public void setUserRepository(UserRepository userRepository){
@@ -65,7 +61,10 @@ public class UserService {
             final UserDetails userDetails = userDetailsService.loadUserByUsername(loginRequest.getUserName());
             final String JWT = jwtUtils.generateToken(userDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
-        }catch(NullPointerException e){
+
+        }
+        catch(NullPointerException e){
+            System.out.println("fail");
             throw new InformationNotFoundException(("user with that user name"+loginRequest.getUserName()+"not found"));
         }
 

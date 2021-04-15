@@ -74,4 +74,14 @@ public class AuthorService {
             throw new InformationNotFoundException("Book with id " + authorId + "not found");
         }
     }
+
+    public List<Book> getAllBooksByAuthor(Long authorId) {
+        System.out.println("service calling getAllBooksByAuthor");
+        Optional<Author> author = authorRepository.findById(authorId);
+        if (author.isPresent()){
+            return author.get().getBookList();
+        }else{
+            throw new InformationNotFoundException("Book with id " + authorId + "not found");
+        }
+    }
 }

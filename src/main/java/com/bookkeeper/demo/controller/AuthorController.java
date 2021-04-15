@@ -45,4 +45,10 @@ public class AuthorController {
         System.out.println("calling from DeleteBook");
         return authorService.deleteAuthor(authorId);
     }
+
+    @GetMapping("/{authorId}/allBooks")
+    public List<Book> getAllBooksByAuthor(@PathVariable Long authorId){
+        System.out.println("calling getAllBooksByAuthor");
+        return authorService.getAllBooksByAuthor(authorId);
+    }
 }

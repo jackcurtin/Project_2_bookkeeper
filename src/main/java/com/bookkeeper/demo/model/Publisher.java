@@ -25,8 +25,7 @@ public class Publisher {
     public Publisher() {
     }
 
-    public Publisher(Long id, String name, String address) {
-        this.id = id;
+    public Publisher(String name, String address) {
         this.name = name;
         this.address = address;
     }

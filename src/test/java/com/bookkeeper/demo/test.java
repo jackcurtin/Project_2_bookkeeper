@@ -1,7 +1,13 @@
 package com.bookkeeper.demo;
 
+import com.bookkeeper.demo.model.Author;
 import com.bookkeeper.demo.model.Book;
+import com.bookkeeper.demo.model.Genre;
+import com.bookkeeper.demo.model.Publisher;
+import com.bookkeeper.demo.repository.AuthorRepository;
 import com.bookkeeper.demo.repository.BookRepository;
+import com.bookkeeper.demo.repository.GenreRepository;
+import com.bookkeeper.demo.repository.PublisherRepository;
 import com.bookkeeper.demo.service.BookService;
 import org.hamcrest.collection.IsMapContaining;
 
@@ -32,6 +38,15 @@ public class test {
     @Mock
     BookRepository bookRepositoryMock;
 
+    @Mock
+    GenreRepository genreRepositoryMock;
+
+    @Mock
+    AuthorRepository authorRepositoryMock;
+
+    @Mock
+    PublisherRepository publisherRepositoryMock;
+
     @InjectMocks
     BookService bookService;
 
@@ -56,13 +71,23 @@ public class test {
         bookObject.put("author_first_name", "William");
         bookObject.put("author_last_name","Gibson");
         bookObject.put("publisher_name","Reading Place");
+        Genre genre = new Genre("history", "happened");
+        Author author = new Author("William", "Gibson", 70, "usa");
+        Publisher publisher = new Publisher("Reading Place", "123 Main St");
+        genreRepositoryMock.save(genre);
+        authorRepositoryMock.save(author);
+        publisherRepositoryMock.save(publisher);
+
         assertThat(bookObject.size(), is(8));
         assertThat(bookObject, not(IsMapContaining.hasEntry("age", "Gibson")));
         assertThat(bookObject, IsMapContaining.hasKey("isbn"));
-        //Map mockAvailableActions =mock(Map.class);
-        //when().thenReturn((Set) bookObject);
-       //assertEquals(, bookService.addBook(bookObject));
-//        when(bookRepositoryMock.findByTitleIgnoreCase(bookObject.get("title")).equals(null)).thenReturn(bookObject);
+        when(bookRepositoryMock.findByTitleIgnoreCase(bookObject.get("title"))).thenReturn(null);
+        when(genreRepositoryMock.findByName(bookObject.get("genre_name"))).thenReturn(Optional.of(genre));
+        when(authorRepositoryMock.findByFirstNameAndLastName(bookObject.get("author_first_name"), bookObject.get("author_last_name")))
+                .thenReturn(Optional.of(author));
+        when(publisherRepositoryMock.findByName(bookObject.get("publisher_name"))).thenReturn(Optional.of(publisher));
+        Book actual = bookService.addBook(bookObject);
+        assertEquals(bookObject, IsMapContaining.hasValue(actual.getIsbn()));
     }
 
 }

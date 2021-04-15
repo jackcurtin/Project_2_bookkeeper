@@ -3,6 +3,7 @@ package com.bookkeeper.demo.service;
 import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
+import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.repository.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,16 @@ public class GenreService {
         if(genre.isPresent()){
             genreRepository.deleteById(genreId);
             return ResponseEntity.ok(HttpStatus.OK);
+        } else{
+            throw new InformationNotFoundException("Genre with ID "+ genreId +" not found.");
+        }
+    }
+
+    public List<Book> getAllBooksByGenre(Long genreId){
+        System.out.println("Service is calling getAllBooksByGenre");
+        Optional<Genre> genre = genreRepository.findById(genreId);
+        if(genre.isPresent()){
+            return genre.get().getBookList();
         } else{
             throw new InformationNotFoundException("Genre with ID "+ genreId +" not found.");
         }

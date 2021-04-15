@@ -108,10 +108,10 @@ public class BookService {
     }
 
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
-        Optional<Genre> genreChecker = genreRepository.findByName(bookObject.get("genre_name"));
-        Optional<Author> authorChecker = authorRepository.findByFirstNameAndLastName
+        Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(bookObject.get("genre_name"));
+        Optional<Author> authorChecker = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase
                 (bookObject.get("author_first_name"), bookObject.get("author_last_name"));
-        Optional<Publisher> publisherChecker = publisherRepository.findByName(bookObject.get("publisher_name"));
+        Optional<Publisher> publisherChecker = publisherRepository.findByNameIgnoreCase(bookObject.get("publisher_name"));
         if (genreChecker.isEmpty()) {
             throw new InformationNotFoundException("No genre with name " + bookObject.get("genre_name") +
                     " found in the database");

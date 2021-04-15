@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
@@ -22,6 +23,7 @@ public class Genre {
     private String description;
 
     @OneToMany(mappedBy = "genre", orphanRemoval = true)
+    @JsonIgnore
     private List<Book> bookList;
 
     public Genre() {
@@ -59,5 +61,9 @@ public class Genre {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 '}';
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
     }
 }

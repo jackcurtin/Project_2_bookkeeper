@@ -42,4 +42,10 @@ public class GenreController {
         System.out.println("Calling deleteGenre");
         return genreService.deleteGenre(genreId);
     }
+
+    @GetMapping("/{genreId}/allBooks")
+    public List<Book> getAllBooksByGenre(@PathVariable Long genreId){
+        System.out.println("calling getAllBooksByGenre");
+        return genreService.getAllBooksByGenre(genreId);
+    }
 }

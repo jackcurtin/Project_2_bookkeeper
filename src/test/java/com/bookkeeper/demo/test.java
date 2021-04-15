@@ -14,30 +14,20 @@ import com.bookkeeper.demo.service.AuthorService;
 import com.bookkeeper.demo.service.BookService;
 import com.bookkeeper.demo.service.GenreService;
 import com.bookkeeper.demo.service.PublisherService;
-import org.checkerframework.checker.units.qual.A;
 import org.hamcrest.collection.IsMapContaining;
-
-
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.method.P;
-
-import javax.swing.*;
 import java.util.*;
 
 @RunWith(MockitoJUnitRunner.class)

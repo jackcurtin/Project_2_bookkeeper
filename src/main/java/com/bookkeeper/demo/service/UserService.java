@@ -67,7 +67,17 @@ public class UserService {
             System.out.println("fail");
             throw new InformationNotFoundException(("user with that user name"+loginRequest.getUserName()+"not found"));
         }
+    }
 
+    public User updatePassword(User userObject){
+        System.out.println("service calling update userPassword");
+        Optional<User> user = userRepository.findByUserName(userObject.getUserName());
+        if(user.isPresent()){
+            userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
+            return userRepository.save(userObject);
+        } else {
+            throw new InformationNotFoundException("User "+userObject.getUserName() +" did not exist");
+        }
     }
 
 

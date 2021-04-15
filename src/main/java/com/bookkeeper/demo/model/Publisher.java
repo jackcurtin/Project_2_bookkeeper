@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class Publisher {
     private String address;
 
     @OneToMany(mappedBy = "publisher", orphanRemoval = true)
+    @JsonIgnore
     private List<Book> bookList;
 
     public Publisher() {
@@ -57,5 +59,9 @@ public class Publisher {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
     }
 }

@@ -3,6 +3,7 @@ package com.bookkeeper.demo.service;
 import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
+import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.model.Publisher;
 import com.bookkeeper.demo.repository.PublisherRepository;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,16 @@ public class PublisherService {
             return ResponseEntity.ok(HttpStatus.OK);
         } else{
             throw new InformationNotFoundException("Publisher with ID "+ publisherId +" not found.");
+        }
+    }
+
+    public List<Book> getAllBooksByPublisher(Long publisherId) {
+        System.out.println("Service calling getAllBooksByPublisher");
+        Optional<Publisher> publisher = publisherRepository.findById(publisherId);
+        if (publisher.isPresent()) {
+            return publisher.get().getBookList();
+        } else {
+            throw new InformationNotFoundException("Publisher with ID " + publisherId + " not found.");
         }
     }
 }

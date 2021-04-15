@@ -1,5 +1,6 @@
 package com.bookkeeper.demo.controller;
 
+import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.model.Publisher;
 import com.bookkeeper.demo.service.PublisherService;
@@ -41,5 +42,11 @@ public class PublisherController {
     public ResponseEntity<Object> deletePublisher(@PathVariable Long publisherId){
         System.out.println("Calling deletePublisher");
         return publisherService.deletePublisher(publisherId);
+    }
+
+    @GetMapping("/{publisherId}/allBooks")
+    public List<Book> getAllBooksByPublisher(@PathVariable Long publisherId){
+        System.out.println("Calling getAllBooksByPublisher");
+        return publisherService.getAllBooksByPublisher(publisherId);
     }
 }

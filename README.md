@@ -1,7 +1,7 @@
 # Bookkeeper Application with Java Spring Boot
 
-|  Endpoint | Functionality  | Access  |
-|------------ | :------------ | :------------ |
+|  Endpoint | Functionality  | Access  |  Header |   Body    |
+|------------ | :------------ | :------------ | :------------ | :------------ 
 | Get/api/books  |  List all books | public  |
 | Get/api/books/{id}  |  Gets a single category with the suppled id | public  |
 |POST/api/books|Creates a new category|public

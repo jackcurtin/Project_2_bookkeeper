@@ -3,6 +3,8 @@ package com.bookkeeper.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -39,6 +41,7 @@ public class Book {
     private Author author;
     @ManyToOne
     private Publisher publisher;
+
     @ManyToMany(mappedBy = "userFavoriteBooks")
     private List<UserProfile> userFavorite;
 

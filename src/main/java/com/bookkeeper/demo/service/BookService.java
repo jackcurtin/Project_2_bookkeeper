@@ -115,13 +115,20 @@ public class BookService {
         Optional<Book> book = bookRepository.findById(bookId);
         if (book.isPresent()) {
             MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserProfile userProfile = userProfileRepository.findUserProfileByUser(userDetails.getUser());
+            UserProfile userProfile = userDetails.getUser().getUserProfile();
             book.get().getUserFavorite().add(userProfile);
-            System.out.println(userProfile);
+            userProfile.getUserFavoriteBooks().add(book.get());
+            userProfileRepository.save(userProfile);
             return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
         } else {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
+    }
+
+    public List<Book> getAllMyFavorites(){
+        System.out.println("service calling getAllMyFavorites");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return userDetails.getUser().getUserProfile().getUserFavoriteBooks().stream().forEach(book -> );
     }
 
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){

@@ -3,6 +3,8 @@ package com.bookkeeper.demo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Locale;
 
 @Entity
 @Table(name = "profiles")
@@ -20,6 +22,13 @@ public class UserProfile {
     @JsonIgnore
     @OneToOne(mappedBy = "userProfile")
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_favorites",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
+    private List<Book> userFavoriteBooks;
 
     public UserProfile() {
     }
@@ -66,5 +75,13 @@ public class UserProfile {
                 ", lastName='" + lastName + '\'' +
                 ", age=" + age +
                 '}';
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

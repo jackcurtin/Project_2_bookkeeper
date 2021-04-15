@@ -3,20 +3,17 @@ package com.bookkeeper.demo.service;
 import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
-import com.bookkeeper.demo.model.Author;
-import com.bookkeeper.demo.model.Book;
-import com.bookkeeper.demo.model.Publisher;
-import com.bookkeeper.demo.repository.AuthorRepository;
-import com.bookkeeper.demo.repository.BookRepository;
-import com.bookkeeper.demo.repository.PublisherRepository;
+import com.bookkeeper.demo.model.*;
+import com.bookkeeper.demo.repository.*;
 import com.bookkeeper.demo.security.JWTUtils;
 import com.bookkeeper.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import com.bookkeeper.demo.model.Genre;
-import com.bookkeeper.demo.repository.GenreRepository;
+
+import org.springframework.web.bind.annotation.PathVariable;
+
 import javax.management.InstanceNotFoundException;
 import javax.swing.text.html.Option;
 import java.util.Map;
@@ -28,6 +25,7 @@ public class BookService {
     private GenreRepository genreRepository;
     private AuthorRepository authorRepository;
     private PublisherRepository publisherRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     public void setBookRepository (BookRepository bookRepository){
@@ -47,6 +45,11 @@ public class BookService {
     @Autowired
     public void setPublisherRepository(PublisherRepository publisherRepository){
         this.publisherRepository = publisherRepository;
+    }
+
+    @Autowired
+    public void setUserProfileRepository(UserProfileRepository userProfileRepository){
+        this.userProfileRepository = userProfileRepository;
     }
 
     public Optional getBook(Long bookId) {
@@ -102,6 +105,20 @@ public class BookService {
         if ( book.isPresent()) {
             bookRepository.deleteById(bookId);
             return "book " + bookId + " deleted";
+        } else {
+            throw new InformationNotFoundException("Book with id " + bookId + "not found");
+        }
+    }
+
+    public String favoriteBook(Long bookId){
+        System.out.println("calling favoriteBook");
+        Optional<Book> book = bookRepository.findById(bookId);
+        if (book.isPresent()) {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserProfile userProfile = userProfileRepository.findUserProfileByUser(userDetails.getUser());
+            book.get().getUserFavorite().add(userProfile);
+            System.out.println(userProfile);
+            return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
         } else {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }

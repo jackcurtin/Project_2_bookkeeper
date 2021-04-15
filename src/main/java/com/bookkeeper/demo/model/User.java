@@ -72,4 +72,12 @@ public class User {
                 ", password='" + password + '\'' +
                 '}';
     }
+
+    public UserProfile getUserProfile() {
+        return userProfile;
+    }
+
+    public void setUserProfile(UserProfile userProfile) {
+        this.userProfile = userProfile;
+    }
 }

@@ -3,14 +3,18 @@ package com.bookkeeper.demo.service;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.User;
+import com.bookkeeper.demo.model.UserProfile;
 import com.bookkeeper.demo.model.request.LoginRequest;
 import com.bookkeeper.demo.model.response.LoginResponse;
+import com.bookkeeper.demo.repository.UserProfileRepository;
 import com.bookkeeper.demo.repository.UserRepository;
 import com.bookkeeper.demo.security.JWTUtils;
+import com.bookkeeper.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +25,7 @@ import java.util.Optional;
 @Service
 public class UserService {
     private UserRepository userRepository;
+    private UserProfileRepository userProfileRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -41,6 +46,11 @@ public class UserService {
     @Autowired
     public void setUserRepository(UserRepository userRepository){
         this.userRepository = userRepository;
+    }
+
+    @Autowired
+    public void setUserProfileRepository(UserProfileRepository userProfileRepository){
+        this.userProfileRepository = userProfileRepository;
     }
 
     public User findUserByUserName(String userName){
@@ -68,9 +78,16 @@ public class UserService {
         }catch(NullPointerException e){
             throw new InformationNotFoundException(("user with that user name"+loginRequest.getUserName()+"not found"));
         }
-
     }
 
-
-
+    public User createUserProfile(UserProfile userProfileObject){
+        System.out.println("service calling createUserProfile");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUserName(userDetails.getUsername()).get();
+        userProfileObject.setUser(user);
+        userProfileRepository.save(userProfileObject);
+        System.out.println("user profile object id " + userProfileObject.getId());
+        user.setUserProfile(userProfileRepository.findUserProfileById(userProfileObject.getId()));
+        return userRepository.save(user);
+    }
 }

@@ -5,10 +5,19 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
 public class Book {
+    public List<UserProfile> getUserFavorite() {
+        return userFavorite;
+    }
+
+    public void setUserFavorite(List<UserProfile> userFavorite) {
+        this.userFavorite = userFavorite;
+    }
+
     @Id
     @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +39,11 @@ public class Book {
     private Author author;
     @ManyToOne
     private Publisher publisher;
+    @ManyToMany(mappedBy = "userFavoriteBooks")
+    private List<UserProfile> userFavorite;
 
     public Book() {
     }
-
 
     public Book(String title, String synopsis, int pageCount, Long isbn) {
         this.title = title;

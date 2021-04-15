@@ -43,9 +43,15 @@ public class BookController {
         return bookService.updateBook(bookId, bookObject);
     }
 
-    @DeleteMapping("delete/{bookId}")
+    @DeleteMapping("/delete/{bookId}")
     public String deleteBook(@PathVariable Long bookId) {
         System.out.println("calling from DeleteBook");
         return bookService.deleteBook(bookId);
+    }
+
+    @PostMapping("/{bookId}/favorite")
+    public String favoriteBook(@PathVariable Long bookId){
+        System.out.println("calling favoriteBook");
+        return bookService.favoriteBook(bookId);
     }
 }

@@ -95,6 +95,6 @@ public class UserService {
         System.out.println("Service calling getUserProfile");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUserName(userDetails.getUsername()).get();
-        return userProfileRepository.findUserProfileByUser(user);
+        return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
     }
 }

@@ -1,8 +1,8 @@
 # Bookkeeper Application with Java Spring Boot
 
 ## API Endpoints
-| http method |  Endpoint | Functionality  | Access  |  Header |   Body    |
-|------------ | :------------ |------------ | :------------ | :------------ | :------------ | :------------
+| http method |Endpoint |Functionality| Access|  Header |   Body    |  
+| ------ | ------ | ------ | ------ | ------ | ------ |
 | Post  | /auth/users/register  |  Create user | Public  | - |  "userName":"gupta", "emailAddress":"5421", "password":"test" |
 | Post  | /auth/users/login |  User login to generate JWT Token | Public  | - |  "userName":"gupta" , "password":"test" |
 | Put  | /auth/users/updatePassword  |  User Update Password | Private  | Authorization : Bearer {{JWTToken}} |  "userName":"gupta", "password":"test" |

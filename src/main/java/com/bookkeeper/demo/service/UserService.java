@@ -103,7 +103,8 @@ public class UserService {
     //Update the Password of user
     public User updatePassword(User userObject) {
         System.out.println("service calling update userPassword");
-        Optional<User> user = userRepository.findByUserName(userObject.getUserName());
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Optional<User> user = userRepository.findByUserName(userDetails.getUsername());
         if (user.isPresent()) {
             user.get().setPassword(passwordEncoder.encode(userObject.getPassword()));
             return userRepository.save(user.get());

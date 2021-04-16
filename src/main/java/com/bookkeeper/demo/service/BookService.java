@@ -128,7 +128,7 @@ public class BookService {
     public List<Book> getAllMyFavorites(){
         System.out.println("service calling getAllMyFavorites");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return userDetails.getUser().getUserProfile().getUserFavoriteBooks().stream().forEach(book -> );
+        return bookRepository.findAllByUserFavoriteIsIn(userDetails.getUser().getUserProfile().getUserFavoriteBooks());
     }
 
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){

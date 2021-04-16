@@ -39,7 +39,9 @@ public class Book {
     private Author author;
     @ManyToOne
     private Publisher publisher;
+
     @ManyToMany(mappedBy = "userFavoriteBooks")
+    @JsonIgnore
     private List<UserProfile> userFavorite;
 
     public Book() {

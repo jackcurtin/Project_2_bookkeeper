@@ -90,4 +90,11 @@ public class UserService {
         user.setUserProfile(userProfileRepository.findUserProfileById(userProfileObject.getId()));
         return userRepository.save(user);
     }
+
+    public UserProfile getUserProfile (){
+        System.out.println("Service calling getUserProfile");
+        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userRepository.findByUserName(userDetails.getUsername()).get();
+        return userProfileRepository.findUserProfileByUser(user);
+    }
 }

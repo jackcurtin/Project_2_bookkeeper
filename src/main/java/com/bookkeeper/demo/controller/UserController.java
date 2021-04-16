@@ -6,10 +6,7 @@ import com.bookkeeper.demo.model.request.LoginRequest;
 import com.bookkeeper.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/auth/users")
@@ -37,5 +34,11 @@ public class UserController {
     public User createUserProfile (@RequestBody UserProfile userProfileObject){
         System.out.println("calling createUserProfile");
         return userService.createUserProfile(userProfileObject);
+    }
+
+    @GetMapping("/viewProfile")
+    public UserProfile getUserProfile(){
+        System.out.println("calling getUserProfile");
+        return userService.getUserProfile();
     }
 }

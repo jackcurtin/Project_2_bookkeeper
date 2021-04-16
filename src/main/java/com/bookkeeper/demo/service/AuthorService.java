@@ -71,7 +71,7 @@ public class AuthorService {
             authorRepository.deleteById(authorId);
             return "book " + authorId + " deleted";
         } else {
-            throw new InformationNotFoundException("Book with id " + authorId + "not found");
+            throw new InformationNotFoundException("Author with id " + authorId + "not found");
         }
     }
 

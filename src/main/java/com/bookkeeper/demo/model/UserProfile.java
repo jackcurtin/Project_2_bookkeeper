@@ -1,6 +1,8 @@
 package com.bookkeeper.demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -28,6 +30,7 @@ public class UserProfile {
             name = "user_favorites",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "book_id"))
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<Book> userFavoriteBooks;
 
     public UserProfile() {

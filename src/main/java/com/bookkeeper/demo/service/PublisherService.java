@@ -25,6 +25,7 @@ public class PublisherService {
         this.publisherRepository = publisherRepository;
     }
 
+    //Get the list of Publishers
     public List<Publisher> getAllPublishers(){
         System.out.println("service calling getAllPublishers");
         List<Publisher> publishers = publisherRepository.findAll();
@@ -34,6 +35,7 @@ public class PublisherService {
         return publishers;
     }
 
+    //Get the single Publisher
     public Publisher getPublisher(Long publisherId){
         System.out.println("Service calling getPublisher");
         Optional<Publisher> publisher = publisherRepository.findById(publisherId);
@@ -44,6 +46,7 @@ public class PublisherService {
         }
     }
 
+    //Create the publisher
     public Publisher addPublisher(Publisher publisherObject){
         System.out.println("service calling addPublisher");
         Optional<Publisher> publisherChecker = publisherRepository.findByNameIgnoreCase(publisherObject.getName());
@@ -58,6 +61,7 @@ public class PublisherService {
         }
     }
 
+    //Delete the Publisher
     public ResponseEntity<Object> deletePublisher(Long publisherId){
         System.out.println("Service is calling deletePublisher");
         Optional<Publisher> publisher = publisherRepository.findById(publisherId);
@@ -69,6 +73,7 @@ public class PublisherService {
         }
     }
 
+    //Get the list of Books related to PublisherId
     public List<Book> getAllBooksByPublisher(Long publisherId) {
         System.out.println("Service calling getAllBooksByPublisher");
         Optional<Publisher> publisher = publisherRepository.findById(publisherId);

@@ -26,6 +26,7 @@ public class GenreService {
         this.genreRepository = genreRepository;
     }
 
+    //Get the list of Genres
     public List<Genre> getAllGenres(){
         System.out.println("service calling all genre");
         List<Genre> genres = genreRepository.findAll();
@@ -35,6 +36,7 @@ public class GenreService {
         return genres;
     }
 
+    //Get the single Genre
     public Genre getGenre(Long genreId){
         System.out.println("service calling getGenre");
         Optional <Genre> genre = genreRepository.findById(genreId);
@@ -45,6 +47,7 @@ public class GenreService {
         }
     }
 
+    //Create the Genre
     public Genre addGenre(Genre genreObject){
         System.out.println("Service is calling addGenre");
         Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(genreObject.getName());
@@ -60,6 +63,7 @@ public class GenreService {
         }
     }
 
+    //Delete the Genre
     public ResponseEntity<Object> deleteGenre(Long genreId){
         System.out.println("Service is calling deleteGenre");
         Optional<Genre> genre = genreRepository.findById(genreId);
@@ -71,6 +75,7 @@ public class GenreService {
         }
     }
 
+    //Get the list of Books related to the GenreId
     public List<Book> getAllBooksByGenre(Long genreId){
         System.out.println("Service is calling getAllBooksByGenre");
         Optional<Genre> genre = genreRepository.findById(genreId);

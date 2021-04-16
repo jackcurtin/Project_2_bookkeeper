@@ -21,6 +21,7 @@ public class AuthorController {
         this.authorService = authorService;
     }
 
+    //http://localhost:9091/api/authors/add/
     @PostMapping("/add/")
     public Author addAuthor(@RequestBody Author authorObject) {
         System.out.println("Calling addAuthor");
@@ -28,24 +29,28 @@ public class AuthorController {
 
     }
 
+    //http://localhost:9091/api/authors/1
     @GetMapping("/{authorId}")
     public Optional getAuthor(@PathVariable Long authorId) {
         System.out.println("calling createBook");
         return authorService.getAuthor(authorId);
     }
 
+    //http://localhost:9091/api/authors
     @GetMapping
     public List<Author> getAllAuthor(){
         System.out.println("Calling getAllBooks");
         return authorService.getAllAuthor();
     }
 
+    //http://localhost:9091/api/authors/delete/2
     @DeleteMapping("/delete/{authorId}")
     public String deleteAuthor(@PathVariable Long authorId) {
         System.out.println("calling from DeleteBook");
         return authorService.deleteAuthor(authorId);
     }
 
+    //http://localhost:9091/api/authors/2/allBooks
     @GetMapping("/{authorId}/allBooks")
     public List<Book> getAllBooksByAuthor(@PathVariable Long authorId){
         System.out.println("calling getAllBooksByAuthor");

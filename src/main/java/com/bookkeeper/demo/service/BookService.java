@@ -1,6 +1,5 @@
 package com.bookkeeper.demo.service;
 
-import com.bookkeeper.demo.exception.AdminRequiredException;
 import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
@@ -80,9 +79,6 @@ public class BookService {
     }
 
     public Book updateBook(Long bookId, Map<String, String> bookObject) {
-//        System.out.println("service calling update Book");
-//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        if (userDetails.getUser().isAdmin()) {
             Optional<Book> bookChecker = bookRepository.findById(bookId);
             if (bookChecker.isPresent()) {
                 if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
@@ -96,10 +92,6 @@ public class BookService {
                 throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
             }
         }
-//        else{
-//            throw new AdminRequiredException("Access denied - admin rights required");
-//        }
-/*    }*/
 
     public String deleteBook(Long bookId) {
         System.out.println("service calling deleteBook");
@@ -126,12 +118,6 @@ public class BookService {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
     }
-
-//    public List<Book> getAllMyFavorites(){
-//        System.out.println("service calling getAllMyFavorites");
-//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//        return bookRepository.findAllByUserFavoriteIsIn(userDetails.getUser().getUserProfile().getUserFavoriteBooks());
-//    }
 
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
         Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(bookObject.get("genre_name"));

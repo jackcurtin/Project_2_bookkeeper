@@ -55,10 +55,4 @@ public class BookController {
         return bookService.favoriteBook(bookId);
     }
 
-//    @GetMapping("/myFavorites")
-//    public List<Book> getAllMyFavorites(){
-//        System.out.println("calling getAllMyFavorites");
-//        return bookService.getAllMyFavorites();
-//    }
-
 }

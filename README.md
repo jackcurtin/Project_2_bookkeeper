@@ -5,7 +5,7 @@ of books, authors, genres, and publishers! All information is publicly available
 through our GET endpoints listed below. To contribute to the database, as well
 as maintain your own list of favorite books, you will need to register as a user.
 
-###Workflow
+### Workflow
 
 The workflow starts with checking our database to what information is required. Duplicate 
 entries are not allowed. If you are adding a book that has an author, genre, and/or
@@ -20,7 +20,7 @@ favorite endpoint. You will need to be logged in to do so, as well as have creat
 for your account for the favorites to save to your list. You can view this list at anytime
 through the View Profile endpoint.
 
-###Relational Diagram
+### Relational Diagram
 
 Before starting this project, we determined that we wanted our API's main entities to
 maintain independence of each other's endpoints. In other words, we did not want to have

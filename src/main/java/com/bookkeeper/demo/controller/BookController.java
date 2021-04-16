@@ -49,15 +49,16 @@ public class BookController {
         return bookService.deleteBook(bookId);
     }
 
-//    @PostMapping("/{bookId}/favorite")
-//    public String favoriteBook(@PathVariable Long bookId){
-//        System.out.println("calling favoriteBook");
-//        return bookService.favoriteBook(bookId);
-//    }
-//
+    @PostMapping("/{bookId}/favorite")
+    public String favoriteBook(@PathVariable Long bookId){
+        System.out.println("calling favoriteBook");
+        return bookService.favoriteBook(bookId);
+    }
+
 //    @GetMapping("/myFavorites")
 //    public List<Book> getAllMyFavorites(){
 //        System.out.println("calling getAllMyFavorites");
 //        return bookService.getAllMyFavorites();
 //    }
+
 }

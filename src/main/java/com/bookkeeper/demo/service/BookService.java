@@ -109,21 +109,21 @@ public class BookService {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
     }
-    
-//    public String favoriteBook(Long bookId){
-//        System.out.println("calling favoriteBook");
-//        Optional<Book> book = bookRepository.findById(bookId);
-//        if (book.isPresent()) {
-//            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//            UserProfile userProfile = userDetails.getUser().getUserProfile();
-//            book.get().getUserFavorite().add(userProfile);
-//            userProfile.getUserFavoriteBooks().add(book.get());
-//            userProfileRepository.save(userProfile);
-//            return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
-//        } else {
-//            throw new InformationNotFoundException("Book with id " + bookId + "not found");
-//        }
-//    }
+
+    public String favoriteBook(Long bookId){
+        System.out.println("calling favoriteBook");
+        Optional<Book> book = bookRepository.findById(bookId);
+        if (book.isPresent()) {
+            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            UserProfile userProfile = userDetails.getUser().getUserProfile();
+            book.get().getUserFavorite().add(userProfile);
+            userProfile.getUserFavoriteBooks().add(book.get());
+            userProfileRepository.save(userProfile);
+            return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
+        } else {
+            throw new InformationNotFoundException("Book with id " + bookId + "not found");
+        }
+    }
 
 //    public List<Book> getAllMyFavorites(){
 //        System.out.println("service calling getAllMyFavorites");

@@ -69,7 +69,7 @@ public class AuthorService {
         Optional<Author> author = authorRepository.findById(authorId);
         if ( author.isPresent()) {
             authorRepository.deleteById(authorId);
-            return "book " + authorId + " deleted";
+            return "Author " + authorId + " deleted";
         } else {
             throw new InformationNotFoundException("Author with id " + authorId + "not found");
         }

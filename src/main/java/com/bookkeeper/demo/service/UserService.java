@@ -33,18 +33,14 @@ public class UserService {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
     private JWTUtils jwtUtils;
 
     @Autowired
-    public void setUserDetailsService(UserDetailsService userDetailsService){
-        this.userDetailsService = userDetailsService;
-    }
-
-    @Autowired
-    public void setUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -54,14 +50,15 @@ public class UserService {
     }
 
     public User findUserByUserName(String userName){
+
         return userRepository.findByUserName(userName).get();
     }
 
-    public User createUser(User userObject){
+    public User createUser(User userObject) {
         System.out.println("service calling createUser");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());
-        if (user.isPresent()){
-            throw new InformationExistsException("User "+userObject.getUserName()+" already exist");
+        if (user.isPresent()) {
+            throw new InformationExistsException("User " + userObject.getUserName() + " already exist");
         } else {
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
             return userRepository.save(userObject);
@@ -91,10 +88,22 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public UserProfile getUserProfile (){
+    public UserProfile getUserProfile () {
         System.out.println("Service calling getUserProfile");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userRepository.findByUserName(userDetails.getUsername()).get();
         return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
+    }
+
+
+    public User updatePassword(User userObject) {
+        System.out.println("service calling update userPassword");
+        Optional<User> user = userRepository.findByUserName(userObject.getUserName());
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(userObject.getPassword()));
+            return userRepository.save(user.get());
+        } else {
+            throw new InformationNotFoundException("User " + userObject.getUserName() + " did not exist");
+        }
     }
 }

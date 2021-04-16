@@ -6,9 +6,12 @@ import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.Book;
 import com.bookkeeper.demo.model.Genre;
 import com.bookkeeper.demo.repository.GenreRepository;
+import com.bookkeeper.demo.security.MyUserDetails;
+import com.bookkeeper.demo.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +27,7 @@ public class GenreService {
     }
 
     public List<Genre> getAllGenres(){
-        System.out.println("service calling getAllGenres");
+        System.out.println("service calling all genre");
         List<Genre> genres = genreRepository.findAll();
         if(genres.isEmpty()){
             throw new InformationNotFoundException("There are no genres.");

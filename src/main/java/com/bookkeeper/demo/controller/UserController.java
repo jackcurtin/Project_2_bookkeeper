@@ -37,8 +37,14 @@ public class UserController {
     }
 
     @GetMapping("/viewProfile")
-    public UserProfile getUserProfile(){
+    public UserProfile getUserProfile() {
         System.out.println("calling getUserProfile");
         return userService.getUserProfile();
+    }
+
+    @PutMapping("/resetPassword")
+    public User updatePassword(@RequestBody User userObject){
+        System.out.println("calling Update Password");
+        return userService.updatePassword(userObject);
     }
 }

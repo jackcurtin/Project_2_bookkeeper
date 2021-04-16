@@ -54,6 +54,7 @@ public class UserService {
         return userRepository.findByUserName(userName).get();
     }
 
+    //Create the User
     public User createUser(User userObject) {
         System.out.println("service calling createUser");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());
@@ -65,6 +66,7 @@ public class UserService {
         }
     }
 
+    //Login User
     public ResponseEntity<Object> loginUser(LoginRequest loginRequest) {
         System.out.println("service calling loginUser ==>");
         try {
@@ -77,6 +79,7 @@ public class UserService {
         }
     }
 
+    //Create the User Profile
     public User createUserProfile(UserProfile userProfileObject){
         System.out.println("service calling createUserProfile");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -88,6 +91,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //Get the User Profile
     public UserProfile getUserProfile () {
         System.out.println("Service calling getUserProfile");
         MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -95,6 +99,8 @@ public class UserService {
         return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
     }
 
+
+    //Update the Password of user
     public User updatePassword(User userObject) {
         System.out.println("service calling update userPassword");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());

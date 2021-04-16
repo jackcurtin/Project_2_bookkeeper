@@ -20,30 +20,35 @@ public class PublisherController {
         this.publisherService = publisherService;
     }
 
+    //http://localhost:9091/api/publishers
     @GetMapping
     public List<Publisher> getAllPublishers(){
         System.out.println("calling getAllPublishers");
         return publisherService.getAllPublishers();
     }
 
+    //http://localhost:9091/api/publishers/2
     @GetMapping("/{publisherId}")
     public Publisher getPublisher(@PathVariable Long publisherId){
         System.out.println("calling getPublisher");
         return publisherService.getPublisher(publisherId);
     }
 
+    //http://localhost:9091/api/publishers/add/
     @PostMapping("/add/")
     public Publisher addPublisher(@RequestBody Publisher publisherObject){
         System.out.println("Calling addPublisher");
         return publisherService.addPublisher(publisherObject);
     }
 
+    //http://localhost:9091/api/publishers/delete/2
     @DeleteMapping("/delete/{publisherId}")
     public ResponseEntity<Object> deletePublisher(@PathVariable Long publisherId){
         System.out.println("Calling deletePublisher");
         return publisherService.deletePublisher(publisherId);
     }
 
+    //http://localhost:9091/api/publishers/2/allBooks
     @GetMapping("/{publisherId}/allBooks")
     public List<Book> getAllBooksByPublisher(@PathVariable Long publisherId){
         System.out.println("Calling getAllBooksByPublisher");

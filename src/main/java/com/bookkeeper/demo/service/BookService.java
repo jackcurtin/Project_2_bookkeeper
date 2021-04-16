@@ -47,6 +47,7 @@ public class BookService {
         this.userProfileRepository = userProfileRepository;
     }
 
+    //Get the single book
     public Optional getBook(Long bookId) {
         System.out.println("service Calling createBook");
         Optional book = bookRepository.findById(bookId);
@@ -57,6 +58,7 @@ public class BookService {
         }
     }
 
+    //Get the list of books
     public List<Book> getAllBooks(){
         System.out.println("Service is calling getAllBooks");
         List<Book> allBooks = bookRepository.findAll();
@@ -66,6 +68,7 @@ public class BookService {
         return allBooks;
     }
 
+    //Create the single book
     public Book addBook(Map<String, String> bookObject){
         System.out.println("Service is calling addBook");
         Optional<Book> bookChecker = bookRepository.findByTitle(bookObject.get("title"));
@@ -78,21 +81,23 @@ public class BookService {
         }
     }
 
+    //Update the single Book
     public Book updateBook(Long bookId, Map<String, String> bookObject) {
-            Optional<Book> bookChecker = bookRepository.findById(bookId);
-            if (bookChecker.isPresent()) {
-                if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
-                    throw new InformationExistsException("book titled " + bookObject.get("title")
-                            + " already exists in the database");
-                } else {
-                    Book book = bookChecker.get();
-                    return bookCreateOrUpdates(book, bookObject);
+        Optional<Book> bookChecker = bookRepository.findById(bookId);
+        if (bookChecker.isPresent()) {
+            if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
+                throw new InformationExistsException("book titled " + bookObject.get("title")
+                        + " already exists in the database");
+            } else {
+                Book book = bookChecker.get();
+                return bookCreateOrUpdates(book, bookObject);
                 }
             } else {
                 throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
-            }
         }
+    }
 
+    // Delete the single book
     public String deleteBook(Long bookId) {
         System.out.println("service calling deleteBook");
         Optional<Book> book = bookRepository.findById(bookId);
@@ -104,6 +109,7 @@ public class BookService {
         }
     }
 
+    //Add the favorite book
     public String favoriteBook(Long bookId){
         System.out.println("calling favoriteBook");
         Optional<Book> book = bookRepository.findById(bookId);
@@ -119,6 +125,7 @@ public class BookService {
         }
     }
 
+    //Logic for create and Update Book
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
         Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(bookObject.get("genre_name"));
         Optional<Author> authorChecker = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase

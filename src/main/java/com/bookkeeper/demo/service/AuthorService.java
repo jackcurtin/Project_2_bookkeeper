@@ -30,7 +30,7 @@ public class AuthorService {
     public void setAuthorController(AuthorController authorController) {
         this.authorController = authorController;
     }
-
+   //Create single Author
     public Author addAuthor(Author authorObject) {
         System.out.println("Service Calling addAuthor");
         Optional author = authorRepository.findByFirstNameIgnoreCaseAndLastNameIgnoreCase(authorObject.getFirstName(), authorObject.getLastName());
@@ -45,6 +45,7 @@ public class AuthorService {
         }
     }
 
+    //Get the single Author
     public Optional getAuthor(Long authorId) {
         System.out.println("service Calling createAuthor");
         Optional author = authorRepository.findById(authorId);
@@ -55,6 +56,7 @@ public class AuthorService {
         }
     }
 
+    //Get the list of Authors
     public List<Author> getAllAuthor(){
         System.out.println("Service is calling getAllAuthor");
         List<Author> allAuthor = authorRepository.findAll();
@@ -64,6 +66,7 @@ public class AuthorService {
         return allAuthor;
     }
 
+    //Delete the Author
     public String deleteAuthor(Long authorId) {
         System.out.println("service calling deleteAuthor");
         Optional<Author> author = authorRepository.findById(authorId);
@@ -74,7 +77,7 @@ public class AuthorService {
             throw new InformationNotFoundException("Author with id " + authorId + "not found");
         }
     }
-
+    //Get All the books related to the AuthorId
     public List<Book> getAllBooksByAuthor(Long authorId) {
         System.out.println("service calling getAllBooksByAuthor");
         Optional<Author> author = authorRepository.findById(authorId);

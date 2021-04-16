@@ -35,19 +35,19 @@ public class UserService {
     private JWTUtils jwtUtils;
 
     @Autowired
-    public void setUserRepository(UserRepository userRepository){
+    public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
-    public User findUserByUserName(String userName){
+    public User findUserByUserName(String userName) {
         return userRepository.findByUserName(userName).get();
     }
 
-    public User createUser(User userObject){
+    public User createUser(User userObject) {
         System.out.println("service calling createUser");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());
-        if (user.isPresent()){
-            throw new InformationExistsException("User "+userObject.getUserName()+" already exist");
+        if (user.isPresent()) {
+            throw new InformationExistsException("User " + userObject.getUserName() + " already exist");
         } else {
             userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
             return userRepository.save(userObject);
@@ -62,24 +62,20 @@ public class UserService {
             final String JWT = jwtUtils.generateToken(userDetails);
             return ResponseEntity.ok(new LoginResponse(JWT));
 
-        }
-        catch(NullPointerException e){
+        } catch (NullPointerException e) {
             System.out.println("fail");
-            throw new InformationNotFoundException(("user with that user name"+loginRequest.getUserName()+"not found"));
+            throw new InformationNotFoundException(("user with that user name" + loginRequest.getUserName() + "not found"));
         }
     }
 
-    public User updatePassword(User userObject){
+    public User updatePassword(User userObject) {
         System.out.println("service calling update userPassword");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());
-        if(user.isPresent()){
-            userObject.setPassword(passwordEncoder.encode(userObject.getPassword()));
-            return userRepository.save(userObject);
+        if (user.isPresent()) {
+            user.get().setPassword(passwordEncoder.encode(userObject.getPassword()));
+            return userRepository.save(user.get());
         } else {
-            throw new InformationNotFoundException("User "+userObject.getUserName() +" did not exist");
+            throw new InformationNotFoundException("User " + userObject.getUserName() + " did not exist");
         }
     }
-
-
-
 }

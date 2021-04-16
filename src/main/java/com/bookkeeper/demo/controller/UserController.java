@@ -29,7 +29,7 @@ public class UserController {
         return userService.loginUser(loginRequest);
     }
 
-    @PutMapping("/update")
+    @PutMapping("/resetPassword")
     public User updatePassword(@RequestBody User userObject){
         System.out.println("calling Update Password");
         return userService.updatePassword(userObject);

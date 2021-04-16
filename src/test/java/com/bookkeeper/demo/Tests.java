@@ -31,7 +31,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.*;
 
 @RunWith(MockitoJUnitRunner.class)
-public class test {
+public class Tests {
 
     private Book book1;
     private Book book2;

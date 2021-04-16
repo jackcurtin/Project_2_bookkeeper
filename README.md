@@ -27,7 +27,7 @@ maintain independence of each other's endpoints. In other words, we did not want
 to access all books by accessing their specific genre first. To visualize this, we created
 an ERD diagram, which we have included below.
 
-![plot](/Users/jack/sei/unit2/projects/project2/images/bookkeeper.png)
+![plot](images/bookkeeper.png)
 
 
 ## API Endpoints

@@ -95,7 +95,6 @@ public class UserService {
         return userProfileRepository.findUserProfileById(user.getUserProfile().getId());
     }
 
-
     public User updatePassword(User userObject) {
         System.out.println("service calling update userPassword");
         Optional<User> user = userRepository.findByUserName(userObject.getUserName());

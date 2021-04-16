@@ -20,6 +20,8 @@ public class User {
     @Column
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
+//    @Column
+//    private boolean isAdmin;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name= "profile_id", referencedColumnName = "id")
@@ -33,7 +35,6 @@ public class User {
         this.emailAddress = emailAddress;
         this.password = password;
     }
-
 
     public String getUserName() {
         return userName;
@@ -80,4 +81,12 @@ public class User {
     public void setUserProfile(UserProfile userProfile) {
         this.userProfile = userProfile;
     }
+
+//    public boolean isAdmin() {
+//        return isAdmin;
+//    }
+//
+//    public void setAdmin(boolean admin) {
+//        isAdmin = admin;
+//    }
 }

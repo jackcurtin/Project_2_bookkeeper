@@ -1,21 +1,17 @@
 package com.bookkeeper.demo.service;
 
+import com.bookkeeper.demo.exception.AdminRequiredException;
 import com.bookkeeper.demo.exception.CannotBeNullException;
 import com.bookkeeper.demo.exception.InformationExistsException;
 import com.bookkeeper.demo.exception.InformationNotFoundException;
 import com.bookkeeper.demo.model.*;
 import com.bookkeeper.demo.repository.*;
-import com.bookkeeper.demo.security.JWTUtils;
 import com.bookkeeper.demo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.PathVariable;
-
-import javax.management.InstanceNotFoundException;
-import javax.swing.text.html.Option;
 import java.util.Map;
 import java.util.Optional;
 
@@ -84,20 +80,26 @@ public class BookService {
     }
 
     public Book updateBook(Long bookId, Map<String, String> bookObject) {
-        System.out.println("service calling update Book");
-        Optional<Book> bookChecker = bookRepository.findById(bookId);
-        if (bookChecker.isPresent()) {
-            if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
-                throw new InformationExistsException("book titled " + bookObject.get("title")
-                        + " already exists in the database");
+//        System.out.println("service calling update Book");
+//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        if (userDetails.getUser().isAdmin()) {
+            Optional<Book> bookChecker = bookRepository.findById(bookId);
+            if (bookChecker.isPresent()) {
+                if (bookRepository.findByTitleIgnoreCase(bookObject.get("title")).isPresent()) {
+                    throw new InformationExistsException("book titled " + bookObject.get("title")
+                            + " already exists in the database");
+                } else {
+                    Book book = bookChecker.get();
+                    return bookCreateOrUpdates(book, bookObject);
+                }
             } else {
-                Book book = bookChecker.get();
-                return bookCreateOrUpdates(book, bookObject);
-          }
-        } else {
-            throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
-       }
-    }
+                throw new InformationNotFoundException("Book with ID " + bookId + " not found in the database");
+            }
+        }
+//        else{
+//            throw new AdminRequiredException("Access denied - admin rights required");
+//        }
+/*    }*/
 
     public String deleteBook(Long bookId) {
         System.out.println("service calling deleteBook");

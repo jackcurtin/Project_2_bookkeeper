@@ -109,7 +109,7 @@ public class BookService {
             throw new InformationNotFoundException("Book with id " + bookId + "not found");
         }
     }
-
+    
 //    public String favoriteBook(Long bookId){
 //        System.out.println("calling favoriteBook");
 //        Optional<Book> book = bookRepository.findById(bookId);

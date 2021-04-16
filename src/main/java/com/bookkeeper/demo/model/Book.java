@@ -1,6 +1,10 @@
 package com.bookkeeper.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.NotNull;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +12,13 @@ import java.util.List;
 @Entity
 @Table(name = "books")
 public class Book {
+    public List<UserProfile> getUserFavorite() {
+        return userFavorite;
+    }
+
+    public void setUserFavorite(List<UserProfile> userFavorite) {
+        this.userFavorite = userFavorite;
+    }
 
     @Id
     @Column
@@ -31,8 +42,8 @@ public class Book {
     @ManyToOne
     private Publisher publisher;
 
-    @OneToMany(mappedBy = "book")
-    private List<UserRating> ratings;
+    @ManyToMany(mappedBy = "userFavoriteBooks")
+    private List<UserProfile> userFavorite;
 
     public Book() {
     }

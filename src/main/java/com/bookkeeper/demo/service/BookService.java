@@ -110,26 +110,26 @@ public class BookService {
         }
     }
 
-    public String favoriteBook(Long bookId){
-        System.out.println("calling favoriteBook");
-        Optional<Book> book = bookRepository.findById(bookId);
-        if (book.isPresent()) {
-            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            UserProfile userProfile = userDetails.getUser().getUserProfile();
-            book.get().getUserFavorite().add(userProfile);
-            userProfile.getUserFavoriteBooks().add(book.get());
-            userProfileRepository.save(userProfile);
-            return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
-        } else {
-            throw new InformationNotFoundException("Book with id " + bookId + "not found");
-        }
-    }
+//    public String favoriteBook(Long bookId){
+//        System.out.println("calling favoriteBook");
+//        Optional<Book> book = bookRepository.findById(bookId);
+//        if (book.isPresent()) {
+//            MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//            UserProfile userProfile = userDetails.getUser().getUserProfile();
+//            book.get().getUserFavorite().add(userProfile);
+//            userProfile.getUserFavoriteBooks().add(book.get());
+//            userProfileRepository.save(userProfile);
+//            return "book " + book.get().getTitle() + " added to " + userProfile.getFirstName() + "'s favorites";
+//        } else {
+//            throw new InformationNotFoundException("Book with id " + bookId + "not found");
+//        }
+//    }
 
-    public List<Book> getAllMyFavorites(){
-        System.out.println("service calling getAllMyFavorites");
-        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return bookRepository.findAllByUserFavoriteIsIn(userDetails.getUser().getUserProfile().getUserFavoriteBooks());
-    }
+//    public List<Book> getAllMyFavorites(){
+//        System.out.println("service calling getAllMyFavorites");
+//        MyUserDetails userDetails = (MyUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        return bookRepository.findAllByUserFavoriteIsIn(userDetails.getUser().getUserProfile().getUserFavoriteBooks());
+//    }
 
     private Book bookCreateOrUpdates (Book book, Map <String, String> bookObject){
         Optional<Genre> genreChecker = genreRepository.findByNameIgnoreCase(bookObject.get("genre_name"));

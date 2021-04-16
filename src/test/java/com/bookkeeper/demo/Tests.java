@@ -72,40 +72,6 @@ public class Tests {
         assertEquals(3, bookService.getAllBooks().size());
     }
 
-    //Testing Adding the book
-    @Test
-    public void testAddBook(){
-        Map <String, String> bookObject = new HashMap<String, String>();
-        bookObject.put("title", "bookTitle");
-        bookObject.put("synopsis", "very large");
-        bookObject.put("pageCount", "40000");
-        bookObject.put("isbn", "10002349902");
-        bookObject.put("genre_name", "history");
-        bookObject.put("author_first_name", "William");
-        bookObject.put("author_last_name","Gibson");
-        bookObject.put("publisher_name","Reading Place");
-        Genre genre = new Genre("history", "happened");
-        Author author = new Author("William", "Gibson", 70, "usa");
-        Publisher publisher = new Publisher("Reading Place", "123 Main St");
-        genreService.addGenre(genre);
-        authorService.addAuthor(author);
-        publisherService.addPublisher(publisher);
-
-        System.out.println(genreRepositoryMock.findAll());
-
-        assertThat(bookObject.size(), is(8));
-        assertThat(bookObject, not(IsMapContaining.hasEntry("age", "Gibson")));
-        assertThat(bookObject, IsMapContaining.hasKey("isbn"));
-        when(bookRepositoryMock.findByTitleIgnoreCase(bookObject.get("title"))).thenReturn(null);
-        when(genreRepositoryMock.findByName(bookObject.get("genre_name"))).thenReturn(Optional.of(genre));
-        when(authorRepositoryMock.findByFirstNameAndLastName(bookObject.get("author_first_name"), bookObject.get("author_last_name")))
-                .thenReturn(Optional.of(author));
-        when(publisherRepositoryMock.findByName(bookObject.get("publisher_name"))).thenReturn(Optional.of(publisher));
-        Book actual = bookService.addBook(bookObject);
-       // assertEquals(bookObject, IsMapContaining.hasValue(actual.getIsbn()));
-        assertEquals(actual, bookService.addBook(bookObject));
-    }
-
     //Testing get All the Genre
     @Test
     public void testFindAllGenre(){

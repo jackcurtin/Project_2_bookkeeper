@@ -61,8 +61,8 @@ an ERD diagram, which we have included below.
 |GET| /api/publishers/{publisherId}/allBooks  |  List all books favorite books relate to publisher | Private  | Authorization : Bearer {{JWTToken}} | - |
 
 ### How to run Api Locally
-1. Clone repository from
-1. Open Folder in IntelliJ
+1. Clone repository from: https://github.com/jackcurtin/project_2_bookkeeper
+1. Open Folder in IntelliJ 
 1. Click on run button.
    This should start the Api project.
    

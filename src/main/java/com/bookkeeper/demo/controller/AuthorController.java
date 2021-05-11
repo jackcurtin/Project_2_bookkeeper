@@ -22,8 +22,7 @@ public class AuthorController {
     }
 
     //http://localhost:9091/api/authors/add/
-    @CrossOrigin(origins = "http://localhost:4200")
-    @PostMapping("/add/")
+    @PostMapping("/add")
     public Author addAuthor(@RequestBody Author authorObject) {
         System.out.println("Calling addAuthor");
         return authorService.addAuthor(authorObject);

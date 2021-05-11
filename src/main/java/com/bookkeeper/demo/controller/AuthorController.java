@@ -22,7 +22,7 @@ public class AuthorController {
     }
 
     //http://localhost:9091/api/authors/add/
-    @CrossOrigin(origins = "http://localhost:50435")
+    @CrossOrigin(origins = "http://localhost:4200")
     @PostMapping("/add/")
     public Author addAuthor(@RequestBody Author authorObject) {
         System.out.println("Calling addAuthor");

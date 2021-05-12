@@ -34,7 +34,7 @@ public class GenreController {
     }
 
     //http://localhost:9091/api/genres/add/
-    @PostMapping("/add/")
+    @PostMapping("/add")
     public Genre addGenre(@RequestBody Genre genreObject){
         System.out.println("Calling addGenre");
         return genreService.addGenre(genreObject);

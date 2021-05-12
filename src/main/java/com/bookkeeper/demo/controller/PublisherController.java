@@ -35,7 +35,7 @@ public class PublisherController {
     }
 
     //http://localhost:9091/api/publishers/add/
-    @PostMapping("/add/")
+    @PostMapping("/add")
     public Publisher addPublisher(@RequestBody Publisher publisherObject){
         System.out.println("Calling addPublisher");
         return publisherService.addPublisher(publisherObject);

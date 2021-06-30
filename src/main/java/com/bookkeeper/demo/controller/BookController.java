@@ -21,6 +21,7 @@ public class BookController {
 
     //http://localhost:9091/api/books/add/
     @PostMapping("/add")
+    @CrossOrigin("http://localhost:3000")
     public Book addBook(@RequestBody Map<String, String> payload){
         System.out.println("Calling addBook");
         return bookService.addBook(payload);

@@ -35,7 +35,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
                 "/auth/users", "/auth/users/login", "/auth/users/register", "/api/books",
                 "/api/books/{bookId}", "/api/genres", "/api/genres/{genreId}","/api/genres/{genreId}/allBooks", "/api/authors",
                 "/api/authors/{authorId}", "/api/authors/{authorId}/allBooks", "/api/publishers", "/api/publishers/{publisherId}",
-                "/api/publishers/{publisherId}/allBooks").permitAll()
+                "/api/publishers/{publisherId}/allBooks", "/api/books/add").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

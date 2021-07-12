@@ -17,6 +17,7 @@ public class CorsConfig {
                         .allowedHeaders("*")
                         .allowCredentials(true)
                         .allowedOrigins("http://localhost:3000",
+                                "https://main.d2y5z0hduq87qy.amplifyapp.com/",
                                 "http://localhost:3000/contribute");
             }
         };
